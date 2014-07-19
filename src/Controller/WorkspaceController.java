@@ -11,7 +11,7 @@ public class WorkspaceController implements MouseListener, MouseMotionListener
 {
     private Workspace workspace;
     private EditorController editorController;
-    private MaterialModel[][] matModelArray = new MaterialModel[39][21];
+    private MaterialModel[][] matModelArray = new MaterialModel[21][39];
     private int brushHeightUnit = 1, brushWidthUnit = 1;
 
     public WorkspaceController(EditorController paramEditorController)
@@ -65,16 +65,16 @@ public class WorkspaceController implements MouseListener, MouseMotionListener
 
     public void brushAction(int paramX, int paramY, String paramMaterial, int paramMatID)
     {
-        for(int i = paramX; i < (this.brushWidthUnit + paramX); i++)
+        for(int j = paramY; j < (this.brushHeightUnit + paramY); j++)
         {
-            for(int j = paramY; j < (this.brushHeightUnit + paramY); j++)
+            for(int i = paramX; i < (this.brushWidthUnit + paramX); i++)
             {
                 if((i < 39) && (j < 21))
                 {
                     if(paramMatID == 200)
-                        this.matModelArray[i][j] = null;
+                        this.matModelArray[j][i] = null;
                     else
-                        this.matModelArray[i][j] = new MaterialModel(paramMaterial, paramMatID);
+                        this.matModelArray[j][i] = new MaterialModel(paramMaterial, paramMatID);
                 }
             }
         }

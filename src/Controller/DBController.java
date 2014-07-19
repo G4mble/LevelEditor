@@ -38,7 +38,7 @@ public class DBController
 
     public MaterialModel[][] loadLevel(String paramName)
     {
-        MaterialModel[][] tmpMatModelArray = new MaterialModel[39][21];
+        MaterialModel[][] tmpMatModelArray = new MaterialModel[21][39];
         try
         {
             Statement stmt = this.connection.createStatement();
@@ -51,9 +51,9 @@ public class DBController
                     ResultSet materialResult = stmt.executeQuery("SELECT materialName FROM materialAllocation WHERE materialID = " + levelResult.getInt(i +1));
                     materialResult.next();
                     if(materialResult.getString(1).equals("eraser"))
-                        tmpMatModelArray[i][j] = null;
+                        tmpMatModelArray[j][i] = null;
                     else
-                        tmpMatModelArray[i][j] = new MaterialModel(materialResult.getString(1), levelResult.getInt(i + 1));
+                        tmpMatModelArray[j][i] = new MaterialModel(materialResult.getString(1), levelResult.getInt(i + 1));
                 }
                 j++;
             }

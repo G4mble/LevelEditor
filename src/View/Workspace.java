@@ -45,12 +45,12 @@ public class Workspace extends JPanel
         workspace.setColor(Color.green);
         workspace.drawImage(this.raster, 0, 0, this);
 
-        for(int i = 0; i < matModelArray.length; i++)
+        for(int i = 0; i < 21; i++)
         {
-            for(int j = 0; j < matModelArray[0].length; j++)
+            for(int j = 0; j < 39; j++)
             {
                 if(matModelArray[i][j] != null)
-                    workspace.drawImage(matModelArray[i][j].getMatImg(), (48 * i) + i, (48 * j) + j, this);
+                    workspace.drawImage(matModelArray[i][j].getMatImg(), (48 * j) + j, (48 * i) + i, this);
             }
         }
 
