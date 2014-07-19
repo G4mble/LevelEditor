@@ -14,6 +14,7 @@ public class EditorController implements ActionListener, KeyListener
     private WorkspaceController workspaceController;
     private ToolController toolController;
     private DBController dbController;
+    private String levelName;
 
     public EditorController()
     {
@@ -70,6 +71,7 @@ public class EditorController implements ActionListener, KeyListener
 
     public void initiateEditor()
     {
+        this.levelName = JOptionPane.showInputDialog(null, "Bitte geben Sie einen Levelnamen ein!");
         this.openToolWindow();
         this.workspaceController = new WorkspaceController(this);
         this.editorFrame.getContentPane().add(this.workspaceController.getWorkspace());
@@ -78,9 +80,15 @@ public class EditorController implements ActionListener, KeyListener
 
     public void initiateSave()
     {
-        String tmpName = JOptionPane.showInputDialog(null, "Bitte geben Sie einen Levelname ein!\n[region][ _ ][int][int]", "Levelname", JOptionPane.INFORMATION_MESSAGE);
-        if(tmpName != null && tmpName.length() > 0)
-            this.dbController.saveLevel(this.workspaceController.getMatModelArray(), tmpName);
+        int userInput = JOptionPane.showConfirmDialog(null, "Als " + this.levelName + " speichern?", "Levelname", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if(userInput == JOptionPane.YES_OPTION)
+            this.dbController.saveLevel(this.workspaceController.getMatModelArray(), this.levelName);
+        else
+        {
+            String tmpName = JOptionPane.showInputDialog(null, "Bitte geben Sie einen neuen Levelname ein!\n[region][ _ ][int][int]", "Levelname", JOptionPane.INFORMATION_MESSAGE);
+            if(tmpName != null && tmpName.length() > 0)
+                this.dbController.saveLevel(this.workspaceController.getMatModelArray(), tmpName);
+        }
     }
 
     public void initiateLoad()
@@ -88,7 +96,10 @@ public class EditorController implements ActionListener, KeyListener
         String tmpName = JOptionPane.showInputDialog(null, "Welches Level möchten Sie laden?\n[region][ _ ][int][int]", "Levelname", JOptionPane.QUESTION_MESSAGE);
         if(tmpName != null && tmpName.length() > 0)
             if(this.dbController.levelIsExisting(tmpName))
+            {
+                this.levelName = tmpName;
                 this.workspaceController.setMatModelArray(this.dbController.loadLevel(tmpName));
+            }
             else
                 JOptionPane.showMessageDialog(null, "Level existiert nicht!", "Fehler beim Laden", JOptionPane.WARNING_MESSAGE);
     }

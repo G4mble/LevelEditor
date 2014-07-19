@@ -87,7 +87,7 @@ public class ToolWindow extends JFrame
 
         JToggleButton tglbtnGrass_standard = new JToggleButton("grass_std");
         tglbtnGrass_standard.addActionListener(paramToolController);
-        tglbtnGrass_standard.setActionCommand("tgl_grass_standard_100");
+        tglbtnGrass_standard.setActionCommand("tgl_grass_standard_101");
         tglbtnGrass_standard.setBounds(145, 11, 135, 23);
         grassTab.add(tglbtnGrass_standard);
 
