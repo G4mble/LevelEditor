@@ -71,7 +71,6 @@ public class EditorController implements ActionListener, KeyListener
 
     public void initiateEditor()
     {
-        this.levelName = JOptionPane.showInputDialog(null, "Bitte geben Sie einen Levelnamen ein!");
         this.openToolWindow();
         this.workspaceController = new WorkspaceController(this);
         this.editorFrame.getContentPane().add(this.workspaceController.getWorkspace());
@@ -121,6 +120,7 @@ public class EditorController implements ActionListener, KeyListener
             }
             this.workspaceController.getWorkspace().setVisible(false);
             this.editorFrame.remove(this.workspaceController.getWorkspace());
+            this.levelName = JOptionPane.showInputDialog(null, "Bitte geben Sie einen Levelnamen ein!");
             this.initiateEditor();
         }
     }
