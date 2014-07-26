@@ -25,6 +25,8 @@ public class EditorController implements ActionListener, KeyListener
         this.initiateEditor();
         if(userOptionInput == JOptionPane.NO_OPTION)
             this.initiateLoad();
+        else
+            this.levelName = JOptionPane.showInputDialog(null, "Bitte geben Sie einen Levelnamen ein!", "Neues Level", JOptionPane.QUESTION_MESSAGE);
     }
 
     @Override
@@ -100,7 +102,10 @@ public class EditorController implements ActionListener, KeyListener
                 this.workspaceController.setMatModelArray(this.dbController.loadLevel(tmpName));
             }
             else
+            {
                 JOptionPane.showMessageDialog(null, "Level existiert nicht!", "Fehler beim Laden", JOptionPane.WARNING_MESSAGE);
+                this.initiateLoad();
+            }
     }
 
     public void newLevel()
@@ -116,11 +121,10 @@ public class EditorController implements ActionListener, KeyListener
                 this.toolController = null;
             }
             catch(NullPointerException npE)
-            {
-            }
+            {}
             this.workspaceController.getWorkspace().setVisible(false);
             this.editorFrame.remove(this.workspaceController.getWorkspace());
-            this.levelName = JOptionPane.showInputDialog(null, "Bitte geben Sie einen Levelnamen ein!");
+            this.levelName = JOptionPane.showInputDialog(null, "Bitte geben Sie einen Levelnamen ein!", "Neues Level", JOptionPane.QUESTION_MESSAGE);
             this.initiateEditor();
         }
     }

@@ -100,7 +100,7 @@ public class DBController
             {
                 for(int j = 0; j < 39; j++)
                 {
-                    MaterialModel tmpModel = paramMatModelArray[j][i];
+                    MaterialModel tmpModel = paramMatModelArray[i][j];
                     if(tmpModel != null)
                         insertQuery.append(tmpModel.getMaterialID());
                     else
