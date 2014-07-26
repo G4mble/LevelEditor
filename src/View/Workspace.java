@@ -55,9 +55,7 @@ public class Workspace extends JPanel
         }
 
         if(this.isInMouseFocus)
-        {
             workspace.drawRect(this.currentMouseX, this.currentMouseY, this.brushWidth, this.brushHeight);
-        }
     }
 
     public void setInMouseFocus(boolean paramBool)
