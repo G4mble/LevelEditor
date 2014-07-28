@@ -71,7 +71,7 @@ public class EditorController implements ActionListener, KeyListener
         }
     }
 
-    public void initiateEditor()
+    private void initiateEditor()
     {
         this.openToolWindow();
         this.workspaceController = new WorkspaceController(this);
@@ -79,7 +79,7 @@ public class EditorController implements ActionListener, KeyListener
         this.workspaceController.getWorkspace().repaint();
     }
 
-    public void initiateSave()
+    private void initiateSave()
     {
         int userInput = JOptionPane.showConfirmDialog(null, "Als " + this.levelName + " speichern?", "Levelname", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if(userInput == JOptionPane.YES_OPTION)
@@ -92,7 +92,7 @@ public class EditorController implements ActionListener, KeyListener
         }
     }
 
-    public void initiateLoad()
+    private void initiateLoad()
     {
         String tmpName = JOptionPane.showInputDialog(null, "Welches Level möchten Sie laden?\n[region][ _ ][int][int]", "Levelname", JOptionPane.QUESTION_MESSAGE);
         if(tmpName != null && tmpName.length() > 0)
@@ -108,7 +108,7 @@ public class EditorController implements ActionListener, KeyListener
             }
     }
 
-    public void newLevel()
+    private void newLevel()
     {
         int userInputOption = JOptionPane.showConfirmDialog(null, "Möchten Sie die Änderungen speichern?", "Fortfahren?", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
         if(userInputOption != JOptionPane.CANCEL_OPTION)
@@ -129,7 +129,7 @@ public class EditorController implements ActionListener, KeyListener
         }
     }
 
-    public void openToolWindow()
+    private void openToolWindow()
     {
         if(this.toolController == null)
             this.toolController = new ToolController(this);
@@ -137,7 +137,7 @@ public class EditorController implements ActionListener, KeyListener
             this.toolController.getToolWindow().requestFocus();
     }
 
-    public void modifyBrushSize(int paramState, int paramIndicator)
+    private void modifyBrushSize(int paramState, int paramIndicator)
     {
         this.toolController.modifySliderValue(paramState, paramIndicator);
     }

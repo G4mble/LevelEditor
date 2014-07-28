@@ -51,7 +51,7 @@ public class WorkspaceController implements MouseListener, MouseMotionListener
         this.selectBrushAction(e.getX(), e.getY());
     }
 
-    public void selectBrushAction(int paramX, int paramY)
+    private void selectBrushAction(int paramX, int paramY)
     {
         if((this.editorController.getToolController() != null) && (this.editorController.getToolController().getSelectedMaterial() != null))
         {
@@ -63,7 +63,7 @@ public class WorkspaceController implements MouseListener, MouseMotionListener
         }
     }
 
-    public void brushAction(int paramX, int paramY, String paramMaterial, int paramMatID)
+    private void brushAction(int paramX, int paramY, String paramMaterial, int paramMatID)
     {
         for(int j = paramY; j < (this.brushHeightUnit + paramY); j++)
         {
@@ -94,7 +94,7 @@ public class WorkspaceController implements MouseListener, MouseMotionListener
         this.workspace.repaint();
     }
 
-    public void updateBrushPosition(int paramX, int paramY)
+    private void updateBrushPosition(int paramX, int paramY)
     {
         int xPos = (((paramX - (paramX / 48)) / 48) * 48) + (paramX / 48);
         int yPos = (((paramY - (paramY / 48)) / 48) * 48) + (paramY / 48);

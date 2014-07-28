@@ -50,7 +50,7 @@ public class ToolController implements ActionListener, ChangeListener
         this.editorController.getWorkspaceController().updateBrushSize(this.toolWindow.getBrushWidth(), this.toolWindow.getBrushHeight());
     }
 
-    public void switchToggleStatus()
+    private void switchToggleStatus()
     {
         if((this.previousToggleButton != null) && (this.previousToggleButton != this.currentToggleButton))
             this.previousToggleButton.setSelected(false);
@@ -76,7 +76,7 @@ public class ToolController implements ActionListener, ChangeListener
         this.updateSliderTextFields();
     }
 
-    public void updateSliderTextFields()
+    private void updateSliderTextFields()
     {
         this.toolWindow.getTxtfWidth().setText(String.valueOf(this.toolWindow.getSliderWidth().getValue()));
         this.toolWindow.getTxtfHeight().setText(String.valueOf(this.toolWindow.getSliderHeight().getValue()));
