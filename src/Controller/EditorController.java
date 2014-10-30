@@ -32,16 +32,24 @@ public class EditorController implements ActionListener, KeyListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        if(e.getActionCommand().equals("beenden"))
-            this.dbController.closeConnection();
-        else if(e.getActionCommand().equals("neu"))
-            this.newLevel();
-        else if(e.getActionCommand().equals("offnen"))
-            this.initiateLoad();
-        else if(e.getActionCommand().equals("speichern"))
-            this.initiateSave();
-        else if(e.getActionCommand().equals("toolWindow"))
-            this.openToolWindow();
+        switch(e.getActionCommand())
+        {
+            case "beenden":
+                this.dbController.closeConnection();
+                break;
+            case "neu":
+                this.newLevel();
+                break;
+            case "offnen":
+                this.initiateLoad();
+                break;
+            case "speichern":
+                this.initiateSave();
+                break;
+            case "toolWindow":
+                this.openToolWindow();
+                break;
+        }
     }
 
     @Override
