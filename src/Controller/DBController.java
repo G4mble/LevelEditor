@@ -8,20 +8,10 @@ import java.sql.*;
 public class DBController
 {
     private Connection connection = null;
+    private static DBController currentDBController;
 
-    public DBController()
+    private DBController()
     {
-        try
-        {
-            Class.forName("org.hsqldb.jdbcDriver");
-            System.out.println("Treiberklasse geladen!");
-        }
-        catch(ClassNotFoundException cnfE)
-        {
-            JOptionPane.showMessageDialog(null, "ErrorMessage: " + cnfE.getMessage() + "\nExceptionType: ClassNotFoundException" +
-                    "\nTreiberklasse konnte nicht geladen werden!", "Fehler beim Laden der Datenbank", JOptionPane.ERROR_MESSAGE);
-            this.closeConnection();
-        }
         try
         {
             this.connection = DriverManager.getConnection("jdbc:hsqldb:file:data\\hsql\\level\\levelDB;ifexists=true;shutdown=true", "root", "");
@@ -34,6 +24,15 @@ public class DBController
                     "\nVerbindung zur Datenbank konnte nicht hergestellt werden!", "Fehler beim Laden der Datenbank", JOptionPane.ERROR_MESSAGE);
             this.closeConnection();
         }
+    }
+
+    /**Gibt das aktuelle DBController Objekt zurück
+     * Erzeugt neuen DBController wenn currentDBController == null*/
+    public static DBController getInstance()
+    {
+        if(currentDBController == null)
+            currentDBController = new DBController();
+        return currentDBController;
     }
 
     public MaterialModel[][] loadLevel(String paramName)
@@ -91,9 +90,9 @@ public class DBController
         try(Statement stmt = this.connection.createStatement())
         {
             if(this.levelIsExisting(paramName))
-                stmt.executeQuery("DROP TABLE " + paramName);
+                stmt.executeUpdate("DROP TABLE " + paramName);
 
-            stmt.executeQuery(createQuery.toString());
+            stmt.executeUpdate(createQuery.toString());
 
             for(int i = 0; i < 21; i++)
             {
@@ -108,7 +107,7 @@ public class DBController
                 }
                 insertQuery.deleteCharAt(insertQuery.length() - 1);
                 insertQuery.append(")");
-                stmt.executeQuery(insertQuery.toString());
+                stmt.executeUpdate(insertQuery.toString());
                 insertQuery = new StringBuilder();
                 insertQuery.append(tmpQuery);
             }
