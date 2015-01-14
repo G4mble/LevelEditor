@@ -58,18 +58,21 @@ public class EditorController implements ActionListener, KeyListener
     private void initiateLoad()
     {
         String tmpName = "";
-        while(tmpName == null || tmpName.equals(""))
+        while(tmpName != null && tmpName.equals(""))
             tmpName = JOptionPane.showInputDialog(null, "Welches Level möchten Sie laden?\n[region][ _ ][int][int]", "Levelname", JOptionPane.QUESTION_MESSAGE);
-        
-        if(this.dbController.levelIsExisting(tmpName))
+
+        if(tmpName != null)
         {
-            this.levelName = tmpName;
-            this.workspaceController.setMatModelArray(this.dbController.loadLevel(tmpName));
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(null, "Level existiert nicht!", "Fehler beim Laden", JOptionPane.WARNING_MESSAGE);
-            this.initiateLoad();
+            if(this.dbController.levelIsExisting(tmpName))
+            {
+                this.levelName = tmpName;
+                this.workspaceController.setMatModelArray(this.dbController.loadLevel(tmpName));
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Level existiert nicht!", "Fehler beim Laden", JOptionPane.WARNING_MESSAGE);
+                this.initiateLoad();
+            }
         }
     }
 
@@ -126,13 +129,17 @@ public class EditorController implements ActionListener, KeyListener
     private void initiateSave()
     {
         int userInput = JOptionPane.showConfirmDialog(null, "Als " + this.levelName + " speichern?", "Levelname", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
         if(userInput == JOptionPane.YES_OPTION)
             this.dbController.saveLevel(this.workspaceController.getMatModelArray(), this.levelName);
-        else
+        else if(userInput == JOptionPane.NO_OPTION)
         {
             String tmpName = JOptionPane.showInputDialog(null, "Bitte geben Sie einen neuen Levelname ein!\n[region][ _ ][int][int]", "Levelname", JOptionPane.INFORMATION_MESSAGE);
             if(tmpName != null && tmpName.length() > 0)
-                this.dbController.saveLevel(this.workspaceController.getMatModelArray(), tmpName);
+            {
+                this.levelName = tmpName;
+                this.dbController.saveLevel(this.workspaceController.getMatModelArray(), this.levelName);
+            }
         }
     }
 

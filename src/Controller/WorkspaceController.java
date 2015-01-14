@@ -119,13 +119,13 @@ public class WorkspaceController implements MouseListener, MouseMotionListener
         return this.workspace;
     }
 
-    @Override /*not in use*/
+    @Override /**not in use*/
     public void mousePressed(MouseEvent e)
     {
 
     }
 
-    @Override /*not in use*/
+    @Override /**not in use*/
     public void mouseReleased(MouseEvent e)
     {
 
