@@ -57,23 +57,28 @@ public class EditorController implements ActionListener, KeyListener
 
     private void initiateLoad()
     {
+        int userInputOption = -1;
+
+        if(levelIsActive)
+            while(userInputOption == - 1)//TODO abbrechen sollte -1 liefern dennoch fehler
+                userInputOption = JOptionPane.showConfirmDialog(null, "Möchten Sie die Änderungen speichern?", "Fortfahren?", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+
         String tmpName = "";
-        while(tmpName != null && tmpName.equals(""))
+        while(tmpName == null || tmpName.equals(""))
             tmpName = JOptionPane.showInputDialog(null, "Welches Level möchten Sie laden?\n[region][ _ ][int][int]", "Levelname", JOptionPane.QUESTION_MESSAGE);
 
-        if(tmpName != null)
+        if(this.dbController.levelIsExisting(tmpName))
         {
-            if(this.dbController.levelIsExisting(tmpName))
-            {
-                this.levelName = tmpName;
-                this.workspaceController.setMatModelArray(this.dbController.loadLevel(tmpName));
-            }
-            else
-            {
-                JOptionPane.showMessageDialog(null, "Level existiert nicht!", "Fehler beim Laden", JOptionPane.WARNING_MESSAGE);
-                this.initiateLoad();
-            }
+            this.levelName = tmpName;
+            this.workspaceController.setMatModelArray(this.dbController.loadLevel(tmpName));
         }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Level existiert nicht!", "Fehler beim Laden", JOptionPane.WARNING_MESSAGE);
+            this.initiateLoad();
+        }
+        this.levelIsActive = true;
+
     }
 
     @Override
@@ -128,18 +133,20 @@ public class EditorController implements ActionListener, KeyListener
 
     private void initiateSave()
     {
-        int userInput = JOptionPane.showConfirmDialog(null, "Als " + this.levelName + " speichern?", "Levelname", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        int userInput = - 1;
+        while(userInput == - 1)
+            userInput = JOptionPane.showConfirmDialog(null, "Als " + this.levelName + " speichern?", "Levelname", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
         if(userInput == JOptionPane.YES_OPTION)
             this.dbController.saveLevel(this.workspaceController.getMatModelArray(), this.levelName);
-        else if(userInput == JOptionPane.NO_OPTION)
+        else
         {
-            String tmpName = JOptionPane.showInputDialog(null, "Bitte geben Sie einen neuen Levelname ein!\n[region][ _ ][int][int]", "Levelname", JOptionPane.INFORMATION_MESSAGE);
-            if(tmpName != null && tmpName.length() > 0)
-            {
-                this.levelName = tmpName;
-                this.dbController.saveLevel(this.workspaceController.getMatModelArray(), this.levelName);
-            }
+            String tmpName = "";
+            while(tmpName == null || tmpName.equals(""))
+                tmpName = JOptionPane.showInputDialog(null, "Bitte geben Sie einen neuen Levelname ein!\n[region][ _ ][int][int]", "Levelname", JOptionPane.INFORMATION_MESSAGE);
+
+            this.levelName = tmpName;
+            this.dbController.saveLevel(this.workspaceController.getMatModelArray(), this.levelName);
         }
     }
 
@@ -158,16 +165,20 @@ public class EditorController implements ActionListener, KeyListener
         {
             if(userInputOption == JOptionPane.YES_OPTION)
                 this.initiateSave();
-            try
+            if(levelIsActive)
             {
-                this.toolController.getToolWindow().dispose();
-                this.toolController = null;
+                try
+                {
+                    this.toolController.getToolWindow().dispose();
+                    this.toolController = null;
+                }
+                catch(NullPointerException npE)
+                {
+                }
+                this.workspaceController.getWorkspace().setVisible(false);
+                this.editorFrame.remove(this.workspaceController.getWorkspace());
+                this.initiateEditor();
             }
-            catch(NullPointerException npE)
-            {
-            }
-            this.workspaceController.getWorkspace().setVisible(false);
-            this.editorFrame.remove(this.workspaceController.getWorkspace());
 
             do
             {
@@ -175,7 +186,6 @@ public class EditorController implements ActionListener, KeyListener
             } while(this.levelName == null || this.levelName.equals(""));
 
             this.levelIsActive = true;
-            this.initiateEditor();
         }
     }
 
